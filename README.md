@@ -11,7 +11,7 @@
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.4-F7931E?logo=scikitlearn&logoColor=white)](https://scikit-learn.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**MLOps Streamlit Lab 1** · IE-7374, Northeastern University (Boston) · Sushant M
+Northeastern University (Boston) · Sushant M
 
 </div>
 
