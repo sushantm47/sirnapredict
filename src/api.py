@@ -30,8 +30,18 @@ def model_path():
 
 
 def load_bundle(path=None):
+    """Load the trained bundle, or return None with an explanation if it cannot be used."""
     path = Path(path) if path else model_path()
-    return joblib.load(path) if path.exists() else None
+    if not path.exists():
+        return None
+    try:
+        return joblib.load(path)
+    except Exception as e:  # usually a scikit-learn version mismatch in the pickle
+        print(f"WARNING: could not load {path}: {e}\n"
+              "         Refit it for this environment:\n"
+              "           python -m scripts.prepare_data data/synthetic_demo.csv\n"
+              "           python -m src.train")
+        return None
 
 
 # ----------------------------------------------------------------- schemas

@@ -10,4 +10,7 @@ __pycache__/
 data/*.csv
 !data/synthetic_demo.csv
 model/training_data.csv
+# pickles are not portable across library versions - refit locally
+model/*.pkl
+model/metrics.json
 *.zip
