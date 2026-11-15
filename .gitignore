@@ -1,0 +1,13 @@
+sirna_env/
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+# Real datasets are NOT redistributed here - obtain them from their original source.
+# Only the clearly-labelled synthetic file is tracked.
+data/*.csv
+!data/synthetic_demo.csv
+model/training_data.csv
+*.zip
