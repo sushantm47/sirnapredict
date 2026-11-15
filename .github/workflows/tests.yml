@@ -1,0 +1,41 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Lint with flake8
+        run: flake8 src app tests scripts --max-line-length=110
+
+      - name: Run tests with coverage
+        run: pytest --cov=src --cov=app --cov-report=term-missing --cov-fail-under=80
+
+      - name: Smoke test the running API
+        run: |
+          python -m scripts.prepare_data data/synthetic_demo.csv
+          python -m src.train   # synthetic data: no real dataset is redistributed here
+          uvicorn src.api:app --port 8000 &
+          sleep 6
+          curl --fail http://127.0.0.1:8000/health
+          curl --fail -X POST http://127.0.0.1:8000/predict \
+            -H "Content-Type: application/json" -d '{"guide": "UUGAUAUGUUGGAUGAUGG"}'
